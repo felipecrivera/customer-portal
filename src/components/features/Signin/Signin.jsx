@@ -37,6 +37,7 @@ function Signin() {
       localStorage.setItem("isUserLoggedIn", true);
       const { customer, token } = payload;
       localStorage.setItem("token", token);
+      localStorage.setItem("customer", JSON.stringify(customer));
       navigate("/");
     } catch (error) {
       localStorage.setItem("isUserLoggedIn", false);

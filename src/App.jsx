@@ -1,8 +1,5 @@
 import "./App.css";
-import Customer from "./components/features/Customer/Customer";
 import Dashboard from "./components/features/Dashboard/Dashboard";
-import Record from "./components/features/Record/Record";
-import Report from "./components/features/Report/Report";
 import Signin from "./components/features/Signin/Signin";
 import Signup from "./components/features/Signup/Signup";
 import PrivateRoute from "./components/utils/PrivateRoute";
@@ -19,10 +16,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
 
           <Route element={<PrivateRoute />}>
-            <Route path="/" element={<Customer />} />
-            <Route path="/customer/:id" element={<Dashboard />} />
-            <Route path="/report" element={<Report />} />
-            <Route path="/record" element={<Record />} />
+            <Route path="/" element={<Dashboard />} />
           </Route>
         </Routes>
       </BrowserRouter>

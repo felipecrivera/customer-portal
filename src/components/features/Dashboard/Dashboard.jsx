@@ -7,7 +7,8 @@ import { utils, writeFile } from "xlsx";
 function Dashboard() {
   const params = useParams();
   const [data, setData] = useState([])
-  const { data: records, isLoading } = useGetCustomerDashboardQuery(params.id);
+  const {_id: customerId} = JSON.parse(localStorage.getItem('customer'))
+  const { data: records, isLoading } = useGetCustomerDashboardQuery(customerId);
 
   useEffect(() => {
     setData(records)
@@ -300,7 +301,7 @@ function Dashboard() {
 
                 <div className="py-4 p-1 lg:p-1">
                   {
-                    data && 
+                    data &&
                     data.map((e, i) => (
                       <React.Fragment key={i}>
                         <div className="flex justify-between mt-6">

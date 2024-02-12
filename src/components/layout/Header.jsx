@@ -17,7 +17,7 @@ function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname;
-  console.log(pathname)
+
   const onLogout = () => {
     localStorage.setItem("isUserLoggedIn", false);
     localStorage.setItem("token", null);
@@ -48,47 +48,7 @@ function Header() {
                 <span>Customers</span>
               </a>
             </li>
-          )}
-          {localStorage.getItem("isUserLoggedIn") == "true" && (
-            <li>
-              <a
-                className={`group flex items-center gap-3.5 rounded-lg px-2.5 py-2 font-medium text-white transition hover:bg-secondary hover:text-white ${(pathname.startsWith('/report')) ? 'text-base text-indigo-700' : ''}`}
-                href="/report"
-              >
-                <span className="text-secondary transition group-hover:text-white">
-                  <FaBookOpen />
-                </span>
-                <span>Reports</span>
-              </a>
-            </li>
-          )}
-          {localStorage.getItem("isUserLoggedIn") == "true" && (
-            <li>
-              <a
-                className="group flex items-center gap-3.5 rounded-lg px-2.5 py-2 font-medium text-white transition hover:bg-secondary hover:text-white"
-                href="https://google.com"
-                target="_blank"
-              >
-                <span className="text-secondary transition group-hover:text-white">
-                  <FaMoneyBillAlt />
-                </span>
-                <span>Billings</span>
-              </a>
-            </li>
-          )}
-          {localStorage.getItem("isUserLoggedIn") == "true" && (
-            <li>
-              <a
-                className={`group flex items-center gap-3.5 rounded-lg px-2.5 py-2 font-medium text-white transition hover:bg-secondary hover:text-white ${(pathname.startsWith('/record')) ? 'text-base text-indigo-700' : ''}`}
-                href="/record"
-              >
-                <span className="text-secondary transition group-hover:text-white">
-                  <FaRegNewspaper />
-                </span>
-                <span>Records</span>
-              </a>
-            </li>
-          )}
+            )}
           <li>
             {localStorage.getItem("isUserLoggedIn") == "true" && (
               <button
