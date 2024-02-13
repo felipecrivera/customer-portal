@@ -37,15 +37,15 @@ function Signin() {
       localStorage.setItem("isUserLoggedIn", true);
       const { customer, token } = payload;
       localStorage.setItem("token", token);
-      localStorage.setItem("customer", JSON.stringify(customer));
       navigate("/");
     } catch (error) {
       localStorage.setItem("isUserLoggedIn", false);
       console.error("rejected", error);
+      setError(error.data.message)
     }
   };
   return (
-    <main className="w-full main main--start p-sign-in">
+    <main className="w-full main main--start p-sign-in mt-40">
       <section className="sign" id="sign">
         <div className="c-grid">
           <div className="section__wrapper">
@@ -97,7 +97,7 @@ function Signin() {
                   <div className="c-form__field c-form__field--link">
                     <a href="#">Forgot password?</a>
                   </div>
-                  <div>{error && <p> {error}</p>}</div>
+                  <div className="text-red-500">{error && <p> {error}</p>}</div>
 
                   <div className="c-form__field c-form__field--btn">
                     <div className="c-btn__wrapper">

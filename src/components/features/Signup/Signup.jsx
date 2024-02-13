@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import logo2 from "../../../assets/img/logo-2.png";
 import logo22x from "../../../assets/img/logo-2@2x.png";
 import { useCreateCustomerMutation } from "../../../redux/customerApi";
@@ -17,6 +17,16 @@ function Signup() {
     { isLoading: isCreating, isSuccess, isError, error: customerError },
   ] = useCreateCustomerMutation();
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    if (customerError && isError) {
+      console.log(customerError);
+      setError(customerError.data.message);
+    } else {
+      if (isSuccess) navigate("/signin");
+    }
+  }, [isSuccess, isError, customerError])
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -48,19 +58,13 @@ function Signup() {
     if (password === confirmPassowrd) {
       const formData = { firstName, lastName, email, password };
       await createCustomer(formData);
-      if (customerError && isError) {
-        console.log(customerError);
-        setError(customerError);
-      } else {
-        if (isSuccess) navigate("/signin");
-      }
     } else {
       setError("Passwords do not match");
       return;
     }
   };
   return (
-    <main className="w-full main main--start p-sign-up">
+    <main className="w-full main main--start p-sign-up pt-20">
       <section className="sign" id="sign">
         <div className="c-grid">
           <div className="section__wrapper">
@@ -168,7 +172,7 @@ function Signup() {
                       </div>
                     </div>
                   </div>
-                  <div>{error && <p> {error}</p>}</div>
+                  <div className="text-red-500">{error && <p> {error}</p>}</div>
                   <div className="c-form__field c-form__field--btn">
                     <div className="c-btn__wrapper">
                       {isCreating && <Loading text={"Signing up..."} />}
@@ -187,7 +191,7 @@ function Signup() {
                     </div>
                   </div>
                   <p className="sign__link">
-                    Already have an account? <a href="#">Sign in</a>
+                    Already have an account? <a href="/signin">Sign in</a>
                   </p>
                   <div className="c-form__field c-form__field--info">
                     <p className="c-form__info">
@@ -200,8 +204,8 @@ function Signup() {
               </div>
               <div className="c-section__footer">
                 <p className="c-section__info">
-                  Having trouble? Contact us at
-                  <a href="#">support@prospectiq.ai</a>
+                  Having trouble? Contact us at {" "}
+                  <a href="mailto:support@prospectiq.ai">support@prospectiq.ai</a>
                 </p>
               </div>
             </div>
