@@ -39,7 +39,7 @@ export const customerApi = createApi({
     }),
     loginCustomer: builder.mutation({
       query: (customer) => ({
-        url: `/signin`,
+        url: `/usignin`,
         method: "POST",
         body: customer,
         headers: {

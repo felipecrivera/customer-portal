@@ -26,10 +26,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
 
           <Route element={<PrivateRoute />}>
-            <Route path="/" element={<Customer />} />
-            <Route path="/customer/:id" element={<Dashboard />} />
-            <Route path="/report" element={<Report />} />
-            <Route path="/record" element={<Record />} />
+            <Route path="/" element={<Dashboard />} />
           </Route>
         </Routes>
       </BrowserRouter>

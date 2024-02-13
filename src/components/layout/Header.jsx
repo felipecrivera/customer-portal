@@ -4,15 +4,7 @@ import appLogo from "../../assets/img/prospectiq-logo.svg";
 import iqConnectLogo from "../../assets/img/iqconnect.png";
 import prospectiqLogo from "../../assets/img/prospectiq-logo.svg";
 import { useNavigate, useLocation } from "react-router-dom";
-import {
-  FaRegUser,
-  FaRegNewspaper,
-  FaMoneyBillAlt,
-  FaBookOpen,
-  FaSignOutAlt,
-  FaSignInAlt,
-} from "react-icons/fa";
-
+import { FaSignOutAlt } from "react-icons/fa"
 function Header() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -42,53 +34,16 @@ function Header() {
             {localStorage.getItem("isUserLoggedIn") == "true" && (
               <li>
                 <a
-                  className={`group flex items-center gap-3.5 rounded-lg px-2.5 py-2 font-medium text-white transition hover:bg-secondary hover:text-white ${(pathname == '/' || pathname.startsWith('/customer')) ? 'text-base text-indigo-700' : ''}`}
+                  className={`group flex items-center gap-3.5 rounded-lg px-2.5 py-2 font-medium text-white transition hover:bg-secondary hover:text-white`}
                   href="/"
                 >
                   <span className="text-secondary transition group-hover:text-white">
-                    <FaRegUser />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="h-5 w-5" viewBox="0 0 24 24">
+                      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                      <path d="M9 22V12h6v10"></path>
+                    </svg>
                   </span>
-                  <span>Customers</span>
-                </a>
-              </li>
-            )}
-            {localStorage.getItem("isUserLoggedIn") == "true" && (
-              <li>
-                <a
-                  className={`group flex items-center gap-3.5 rounded-lg px-2.5 py-2 font-medium text-white transition hover:bg-secondary hover:text-white ${(pathname.startsWith('/report')) ? 'text-base text-indigo-700' : ''}`}
-                  href="/report"
-                >
-                  <span className="text-secondary transition group-hover:text-white">
-                    <FaBookOpen />
-                  </span>
-                  <span>Reports</span>
-                </a>
-              </li>
-            )}
-            {localStorage.getItem("isUserLoggedIn") == "true" && (
-              <li>
-                <a
-                  className="group flex items-center gap-3.5 rounded-lg px-2.5 py-2 font-medium text-white transition hover:bg-secondary hover:text-white"
-                  href="https://google.com"
-                  target="_blank"
-                >
-                  <span className="text-secondary transition group-hover:text-white">
-                    <FaMoneyBillAlt />
-                  </span>
-                  <span>Billings</span>
-                </a>
-              </li>
-            )}
-            {localStorage.getItem("isUserLoggedIn") == "true" && (
-              <li>
-                <a
-                  className={`group flex items-center gap-3.5 rounded-lg px-2.5 py-2 font-medium text-white transition hover:bg-secondary hover:text-white ${(pathname.startsWith('/record')) ? 'text-base text-indigo-700' : ''}`}
-                  href="/record"
-                >
-                  <span className="text-secondary transition group-hover:text-white">
-                    <FaRegNewspaper />
-                  </span>
-                  <span>Records</span>
+                  <span>Dashboard</span>
                 </a>
               </li>
             )}
@@ -153,43 +108,12 @@ function Header() {
                     href="index.html"
                   >
                     <span className="text-secondary transition group-hover:text-white">
-                      <FaRegUser />
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="h-5 w-5" viewBox="0 0 24 24">
+                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <path d="M9 22V12h6v10"></path>
+                      </svg>
                     </span>
                     <span>Customers</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="group flex items-center gap-3.5 rounded-lg px-2.5 py-2 font-medium text-white transition hover:bg-secondary hover:text-white"
-                    href="/report"
-                  >
-                    <span className="text-secondary transition group-hover:text-white">
-                      <FaBookOpen />
-                    </span>
-                    <span>Reports</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="group flex items-center gap-3.5 rounded-lg px-2.5 py-2 font-medium text-white transition hover:bg-secondary hover:text-white"
-                    href="http://www.google.com"
-                    target="_blank"
-                  >
-                    <span className="text-secondary transition group-hover:text-white">
-                      <FaMoneyBillAlt />
-                    </span>
-                    <span>Billings</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="group flex items-center gap-3.5 rounded-lg px-2.5 py-2 font-medium text-white transition hover:bg-secondary hover:text-white"
-                    href="/record"
-                  >
-                    <span className="text-secondary transition group-hover:text-white">
-                      <FaRegNewspaper />
-                    </span>
-                    <span>Records</span>
                   </a>
                 </li>
                 <li>
