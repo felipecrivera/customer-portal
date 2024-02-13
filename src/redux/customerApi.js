@@ -50,7 +50,7 @@ export const customerApi = createApi({
     getCustomerDashboard: builder.query({
       query: (id) => ({
         url: `/getDashboard/${id}`,
-        method: "GET",
+        method: "POST",
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
