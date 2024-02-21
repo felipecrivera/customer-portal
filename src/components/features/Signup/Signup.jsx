@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 function Signup() {
   const emailRef = useRef();
-  const firstNameRef = useRef();
-  const lastNameRef = useRef();
+  const accountIdRef = useRef();
+  const accountNameRef = useRef();
   const passowrdRef = useRef();
   const confirmPasswordRef = useRef();
   const [error, setError] = useState();
@@ -18,7 +18,6 @@ function Signup() {
   ] = useCreateCustomerMutation();
   const navigate = useNavigate();
 
-
   useEffect(() => {
     if (customerError && isError) {
       console.log(customerError);
@@ -26,22 +25,22 @@ function Signup() {
     } else {
       if (isSuccess) navigate("/signin");
     }
-  }, [isSuccess, isError, customerError])
+  }, [isSuccess, isError, customerError]);
 
   const handleSignup = async (e) => {
     e.preventDefault();
 
-    const firstName = firstNameRef.current.value;
-    const lastName = lastNameRef.current.value;
+    const AccountId = accountIdRef.current.value;
+    const AccountName = accountNameRef.current.value;
     const email = emailRef.current.value;
     const password = passowrdRef.current.value;
     const confirmPassowrd = confirmPasswordRef.current.value;
 
-    if (firstName === "" || firstName == null) {
+    if (AccountId === "" || AccountId == null) {
       setError("First name is required");
       return;
     }
-    if (lastName === "" || lastName == null) {
+    if (AccountName === "" || AccountName == null) {
       setError("Last name is required");
       return;
     }
@@ -56,7 +55,7 @@ function Signup() {
     }
 
     if (password === confirmPassowrd) {
-      const formData = { firstName, lastName, email, password };
+      const formData = { AccountId, AccountName, email, password };
       await createCustomer(formData);
     } else {
       setError("Passwords do not match");
@@ -90,31 +89,31 @@ function Signup() {
                   <div className="c-form__group">
                     <div>
                       <div className="c-form__field">
-                        <label className="c-form__label" htmlFor="first_name">
-                          First name*
+                        <label className="c-form__label" htmlFor="account_id">
+                          Account Id*
                         </label>
                         <input
-                          ref={firstNameRef}
+                          ref={accountIdRef}
                           className="c-form__input"
                           type="text"
-                          name="first_name"
-                          id="first_name"
-                          placeholder="Type your first name..."
+                          name="account_id"
+                          id="account_id"
+                          placeholder="Type your Account Id..."
                           required
                         />
                       </div>
                     </div>
                     <div>
                       <div className="c-form__field">
-                        <label className="c-form__label" htmlFor="last_name">
-                          Last name*
+                        <label className="c-form__label" htmlFor="Account_Name">
+                          Account name*
                         </label>
                         <input
-                          ref={lastNameRef}
+                          ref={accountNameRef}
                           className="c-form__input"
                           type="text"
-                          name="last_name"
-                          id="last_name"
+                          name="Account_Name"
+                          id="Account_Name"
                           placeholder="Type your last name..."
                           required
                         />
@@ -204,8 +203,10 @@ function Signup() {
               </div>
               <div className="c-section__footer">
                 <p className="c-section__info">
-                  Having trouble? Contact us at {" "}
-                  <a href="mailto:support@prospectiq.ai">support@prospectiq.ai</a>
+                  Having trouble? Contact us at{" "}
+                  <a href="mailto:support@prospectiq.ai">
+                    support@prospectiq.ai
+                  </a>
                 </p>
               </div>
             </div>

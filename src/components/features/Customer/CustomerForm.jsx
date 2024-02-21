@@ -12,8 +12,8 @@ function CustomerForm({
     record
       ? record
       : {
-          firstName: "",
-          lastName: "",
+          AccountName: "",
+          AccountId: "",
           email: "",
         }
   );
@@ -34,8 +34,8 @@ function CustomerForm({
         showLoading={isUpdating}
         handleOnCancel={() => {
           setFormData({
-            firstName: "",
-            lastName: "",
+            AccountId: "",
+            AccountName: "",
             email: "",
           });
           handleOnCancel();
@@ -48,31 +48,31 @@ function CustomerForm({
           <div className="flex flex-col justify-center">
             <div className="self-center my-1">
               <div className="mb-1">
-                <label htmlFor="firstName" className=" text-white">
-                  First Name
+                <label htmlFor="AccountId" className=" text-white">
+                  Account Id
                 </label>
               </div>
               <input
-                id="firstName"
+                id="AccountId"
                 onChange={handleOnChange}
                 type="text"
-                value={formData.firstName}
-                name="firstName"
+                value={formData.AccountId}
+                name="AccountId"
                 className="rounded  p-1 focus:shadow-outline focus:outline-none"
               />
             </div>
             <div className="self-center my-1">
               <div className="mb-1">
-                <label htmlFor="lastName" className=" text-white">
-                  Last Name
+                <label htmlFor="AccountName" className=" text-white">
+                  Account Name
                 </label>
               </div>
               <input
-                id="lastName"
+                id="AccountName"
                 type="text"
                 onChange={handleOnChange}
-                name="lastName"
-                value={formData.lastName}
+                name="AccountName"
+                value={formData.AccountName}
                 className="rounded  p-1 focus:shadow-outline focus:outline-none"
               />
             </div>

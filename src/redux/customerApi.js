@@ -48,9 +48,10 @@ export const customerApi = createApi({
       }),
     }),
     getCustomerDashboard: builder.query({
-      query: (id) => ({
+      query: ({ id, filter }) => ({
         url: `/getDashboard/${id}`,
         method: "POST",
+        body: { filter },
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
