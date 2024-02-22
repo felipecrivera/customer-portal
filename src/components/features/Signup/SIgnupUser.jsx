@@ -1,21 +1,22 @@
 import React, { useRef, useState, useEffect } from "react";
 import logo2 from "../../../assets/img/logo-2.png";
 import logo22x from "../../../assets/img/logo-2@2x.png";
-import { useCreateCustomerMutation } from "../../../redux/customerApi";
+import { useCreateUserMutation } from "../../../redux/customerApi";
 import Loading from "../../utils/Loading";
 import { useNavigate } from "react-router-dom";
 
-function Signup() {
+function SignupUser() {
   const emailRef = useRef();
   const accountIdRef = useRef();
   const accountNameRef = useRef();
   const passowrdRef = useRef();
+  const userIdRef = useRef();
   const confirmPasswordRef = useRef();
   const [error, setError] = useState();
   const [
-    createCustomer,
+    createUser,
     { isLoading: isCreating, isSuccess, isError, error: customerError },
-  ] = useCreateCustomerMutation();
+  ] = useCreateUserMutation();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,17 +32,22 @@ function Signup() {
     e.preventDefault();
 
     const AccountId = accountIdRef.current.value;
+    const userId = userIdRef.current.value;
     const AccountName = accountNameRef.current.value;
     const email = emailRef.current.value;
     const password = passowrdRef.current.value;
     const confirmPassowrd = confirmPasswordRef.current.value;
 
     if (AccountId === "" || AccountId == null) {
-      setError("First name is required");
+      setError("Account Id is required");
+      return;
+    }
+    if (userId === "" || userId == null) {
+      setError("User Id is required");
       return;
     }
     if (AccountName === "" || AccountName == null) {
-      setError("Last name is required");
+      setError("Account name is required");
       return;
     }
 
@@ -55,8 +61,8 @@ function Signup() {
     }
 
     if (password === confirmPassowrd) {
-      const formData = { AccountId, AccountName, email, password };
-      await createCustomer(formData);
+      const formData = { AccountId, userId, AccountName, email, password };
+      await createUser(formData);
     } else {
       setError("Passwords do not match");
       return;
@@ -81,23 +87,28 @@ function Signup() {
                 </div>
               </div>
               <div className="c-section__body">
-                <div className="flex justify-between items-center">
-                  <h5 className="c-section__title">Sign up</h5>
-                  <h5>
-                    <a
-                      className="text-blue-700 font-semibold"
-                      href="/signin-user"
-                    >
-                      Sign up as User
-                    </a>
-                  </h5>
-                </div>
-
+                <h5 className="c-section__title">Sign up</h5>
                 <p className="c-section__desc">
                   Fill in your details below and continue signing up
                 </p>
                 <form className="c-form" autoComplete="off">
                   <div className="c-form__group">
+                    <div>
+                      <div className="c-form__field">
+                        <label className="c-form__label" htmlFor="account_id">
+                          User Id*
+                        </label>
+                        <input
+                          ref={userIdRef}
+                          className="c-form__input"
+                          type="text"
+                          name="account_id"
+                          id="account_id"
+                          placeholder="Type your User Id..."
+                          required
+                        />
+                      </div>
+                    </div>
                     <div>
                       <div className="c-form__field">
                         <label className="c-form__label" htmlFor="account_id">
@@ -201,11 +212,8 @@ function Signup() {
                     </div>
                   </div>
                   <p className="sign__link">
-                    <div>
-                      Already have an account? <a href="/signin">Sign in</a>
-                    </div>
+                    Already have an account? <a href="/signin">Sign in</a>
                   </p>
-
                   <div className="c-form__field c-form__field--info">
                     <p className="c-form__info">
                       By clicking “Create account” you agree to our
@@ -231,4 +239,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default SignupUser;

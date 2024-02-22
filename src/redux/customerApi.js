@@ -27,6 +27,16 @@ export const customerApi = createApi({
         },
       }),
     }),
+    createUser: builder.mutation({
+      query: (user) => ({
+        url: `/signup-user`,
+        method: "POST",
+        body: user,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
     editCustomer: builder.mutation({
       query: (customer) => ({
         url: `/edit/${customer._id}`,
@@ -64,6 +74,7 @@ export const customerApi = createApi({
 export const {
   useGetCustomersQuery,
   useCreateCustomerMutation,
+  useCreateUserMutation,
   useLoginCustomerMutation,
   useGetCustomerDashboardQuery,
   useEditCustomerMutation,

@@ -35,14 +35,15 @@ function Signin() {
     try {
       const payload = await loginCustomer(formData).unwrap();
       localStorage.setItem("isUserLoggedIn", true);
-      const { customer, token } = payload;
+      const { customer, token, user } = payload;
       localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("customer", JSON.stringify(customer));
       navigate("/");
     } catch (error) {
       localStorage.setItem("isUserLoggedIn", false);
       console.error("rejected", error);
-      setError(error.data.message)
+      setError(error.data.message);
     }
   };
   return (
