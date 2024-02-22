@@ -1,29 +1,32 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { utils, writeFile } from "xlsx";
-import { useGetCustomerDashboardQuery } from "../../../redux/customerApi";
-
+import { useGetAdminDashboardQuery } from "../../../redux/adminApi";
 import { useGetAllCampaignQuery } from "../../../redux/campaignApi";
 import Loading from "../../utils/Loading";
+import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../../layout/Navbar";
-
-function Booking({}) {
-  const customer = JSON.parse(localStorage.getItem("customer"));
+function Booking() {
+  const params = useParams();
+  const location = useLocation();
+  const customer = JSON.parse(localStorage.getItem('customer'));
   const [data, setData] = useState([]);
   const [noOfBookings, setNoOfBookings] = useState();
+  const [prevnoOfBookings, setPrevNoOfBookings] = useState();
   const [goalReachedPercent, setGoalReachedPercent] = useState();
-  const [noOfActivations, setNoOfActivations] = useState();
   const [noOfConversations, setNoOfConversations] = useState();
+  const [noOfPrevConversations, setNoOfPrevConversations] = useState();
   const [conversationRate, setConversationRate] = useState();
+  const [prevconversationRate, setPrevConversationRate] = useState();
   const [currentActiveFilter, setCurrentActiveFilter] = useState(1);
-
-  const {
-    data: dashboardData,
-    refetch: adminRefetch,
-    isLoading,
-  } = useGetCustomerDashboardQuery({
-    id: customer._id,
-    filter: currentActiveFilter,
-  });
+  
+  const navigate = useNavigate();
+  const { data: dashboardData, refetch: adminRefetch } =
+    useGetAdminDashboardQuery({
+      id: customer._id,
+      filter: currentActiveFilter,
+      type: "Booking",
+    });
 
   const {
     data: campaigns,
@@ -41,26 +44,44 @@ function Booking({}) {
     if (dashboardData) {
       setData(dashboardData.records);
       setNoOfBookings(dashboardData.noOfBookings);
-      setNoOfActivations(dashboardData.noOfActivations);
       setNoOfConversations(dashboardData.noOfConversations);
+      setPrevNoOfBookings(dashboardData.prevnoOfBookings);
+      setNoOfPrevConversations(dashboardData.prevnoOfConversations);
 
       if (dashboardData.noOfConversations !== 0) {
         setConversationRate(
-          (dashboardData.noOfBookings / dashboardData.noOfConversations) * 100
+          Number.parseFloat(
+            (dashboardData.noOfBookings / dashboardData.noOfConversations) * 100
+          ).toFixed(2)
         );
       } else {
         setConversationRate(0);
       }
 
+      if (dashboardData.prevnoOfConversations !== 0) {
+        setPrevConversationRate(
+          Number.parseFloat(
+            (dashboardData.prevnoOfBookings /
+              dashboardData.prevnoOfConversationsf) *
+              100
+          ).toFixed(2)
+        );
+      } else {
+        setPrevConversationRate(0);
+      }
+
       if (customer && customer.bookingGoal && customer.bookingGoal != 0) {
         setGoalReachedPercent(
-          (dashboardData?.noOfBookings / customer.bookingGoal) * 100
+          (dashboardData?.noOfBookings /
+            customer.bookingGoal /
+            dashboardData.dayCnt) *
+            100
         );
       } else {
         setGoalReachedPercent(0);
       }
     }
-  }, [dashboardData]);
+  }, [dashboardData, customer]);
 
   const exportToCSV = (e) => {
     const worksheet = utils.json_to_sheet([
@@ -95,6 +116,7 @@ function Booking({}) {
           currentActiveFilter={currentActiveFilter}
           setCurrentActiveFilter={onTabChange}
         />
+
         <div className="mt-8 flex-1">
           <div>
             <div className="">
@@ -112,7 +134,7 @@ function Booking({}) {
                           <path d="M15.349 1.395h-2.093V.698a.698.698 0 0 0-1.396 0v.697H4.885V.698a.698.698 0 1 0-1.396 0v.697H1.395A1.395 1.395 0 0 0 0 2.791v13.953a1.395 1.395 0 0 0 1.395 1.396H15.35a1.395 1.395 0 0 0 1.395-1.396V2.791a1.395 1.395 0 0 0-1.395-1.396ZM3.489 2.791v.697a.698.698 0 0 0 1.395 0v-.697h6.976v.697a.698.698 0 0 0 1.396 0v-.697h2.093v2.79H1.395v-2.79h2.093Zm11.86 13.953H1.395V6.977H15.35v9.767ZM6.977 9.07v5.581a.698.698 0 1 1-1.396 0v-4.453l-.385.194a.698.698 0 1 1-.624-1.249l1.395-.698a.698.698 0 0 1 1.01.625Zm5.159 2.655-1.67 2.229h1.395a.698.698 0 0 1 0 1.395H9.07a.697.697 0 0 1-.558-1.116l2.51-3.347a.697.697 0 1 0-1.161-.77.697.697 0 1 1-1.208-.697 2.093 2.093 0 1 1 3.483 2.306Z" />
                         </svg>
                       </span>
-                      <h6 className="text-base font-medium">Appointments</h6>
+                      <h6 className="text-base font-medium">Bookings</h6>
                     </div>
 
                     <div className="flex items-center gap-px text-sm font-medium text-primary">
@@ -126,7 +148,16 @@ function Booking({}) {
                           <path d="M10.072 0a10.072 10.072 0 1 0 10.072 10.072A10.082 10.082 0 0 0 10.072 0Zm0 18.594a8.522 8.522 0 1 1 8.522-8.522 8.532 8.532 0 0 1-8.522 8.522Zm3.647-9.845a.774.774 0 1 1-1.096 1.096l-1.776-1.777v5.877a.775.775 0 1 1-1.55 0V8.069L7.521 9.845A.775.775 0 1 1 6.425 8.75l3.099-3.1a.775.775 0 0 1 1.096 0l3.099 3.1Z" />
                         </svg>
                       </span>
-                      <span className=""> +5% </span>
+                      <span className="">
+                        {" "}
+                        {noOfBookings > prevnoOfBookings ? "+" : "-"}
+                        {prevnoOfBookings
+                          ? ((noOfBookings - prevnoOfBookings) /
+                              prevnoOfBookings) *
+                            100
+                          : 100}
+                        %{" "}
+                      </span>
                     </div>
                   </div>
 
@@ -141,8 +172,11 @@ function Booking({}) {
                       <p className="font-semibold">Progress Tracker</p>
                       <p>
                         <span className="font-medium text-secondary">
-                          {Math.abs(100 - goalReachedPercent)}%
-                        </span>
+                          {Number.parseFloat(100 - goalReachedPercent).toFixed(
+                            2
+                          )}{" "}
+                          %
+                        </span>{" "}
                         to goal
                       </p>
                     </div>
@@ -177,7 +211,7 @@ function Booking({}) {
                             <path d="M12.461 6.23v4.155a.692.692 0 1 1-1.384 0V7.902L6.72 12.259a.691.691 0 0 1-1.183-.49.693.693 0 0 1 .203-.49l4.357-4.356H7.615a.692.692 0 1 1 0-1.385h4.154a.693.693 0 0 1 .692.693ZM18 9a9 9 0 1 1-9-9 9.01 9.01 0 0 1 9 9Zm-1.385 0A7.615 7.615 0 1 0 9 16.615 7.625 7.625 0 0 0 16.615 9Z"></path>
                           </svg>
                         </span>
-                        <h6 className="text-base font-medium">Conversations</h6>
+                        <h6 className="text-base font-medium">Conversation</h6>
                       </div>
 
                       <div className="flex items-center gap-px text-sm font-medium text-primary">
@@ -191,7 +225,18 @@ function Booking({}) {
                             <path d="M10.072 0a10.072 10.072 0 1 0 10.072 10.072A10.082 10.082 0 0 0 10.072 0Zm0 18.594a8.522 8.522 0 1 1 8.522-8.522 8.532 8.532 0 0 1-8.522 8.522Zm3.647-9.845a.774.774 0 1 1-1.096 1.096l-1.776-1.777v5.877a.775.775 0 1 1-1.55 0V8.069L7.521 9.845A.775.775 0 1 1 6.425 8.75l3.099-3.1a.775.775 0 0 1 1.096 0l3.099 3.1Z"></path>
                           </svg>
                         </span>
-                        <span className=""> +12% </span>
+                        <span className="">
+                          {" "}
+                          {noOfPrevConversations > noOfConversations
+                            ? "-"
+                            : "+"}{" "}
+                          {noOfPrevConversations
+                            ? ((noOfPrevConversations - noOfConversations) /
+                                noOfPrevConversations) *
+                              100
+                            : "100"}
+                          %{" "}
+                        </span>
                       </div>
                     </div>
 
@@ -232,7 +277,18 @@ function Booking({}) {
                             <path d="M10.072 0a10.072 10.072 0 1 0 10.072 10.072A10.082 10.082 0 0 0 10.072 0Zm0 18.594a8.522 8.522 0 1 1 8.522-8.522 8.532 8.532 0 0 1-8.522 8.522Zm3.647-9.845a.774.774 0 1 1-1.096 1.096l-1.776-1.777v5.877a.775.775 0 1 1-1.55 0V8.069L7.521 9.845A.775.775 0 1 1 6.425 8.75l3.099-3.1a.775.775 0 0 1 1.096 0l3.099 3.1Z"></path>
                           </svg>
                         </span>
-                        <span className=""> +12% </span>
+                        <span className="">
+                          {" "}
+                          {conversationRate > prevconversationRate
+                            ? "+"
+                            : "-"}{" "}
+                          {prevconversationRate
+                            ? ((conversationRate - prevconversationRate) /
+                                prevconversationRate) *
+                              100
+                            : "100"}
+                          %{" "}
+                        </span>
                       </div>
                     </div>
 
@@ -265,36 +321,42 @@ function Booking({}) {
                       {isCampaignLoading && <Loading />}
                       {campaigns &&
                         !isCampaignLoading &&
-                        campaigns.map((item) => {
-                          return (
-                            <div key={item._id}>
-                              <div className="flex justify-between mt-6">
-                                <div>
-                                  <h6 className="font-semibold">
-                                    Campaign name
-                                  </h6>
-                                  <div className="text-base font-medium whitespace-pre">
-                                    {item.name}
+                        campaigns
+                          .filter((e) => e.type == "Boost")
+                          .map((item) => {
+                            return (
+                              <div key={item._id}>
+                                <a href={"/report?campaign=" + item._id}>
+                                  <div className="flex justify-between mt-6">
+                                    <div>
+                                      <h6 className="font-semibold">
+                                        Campaign name
+                                      </h6>
+                                      <div className="text-base font-medium whitespace-pre">
+                                        {item.name}
+                                      </div>
+                                    </div>
+                                    <div>
+                                      <h6 className="font-semibold">
+                                        Description
+                                      </h6>
+                                      <div className="text-base font-medium whitespace-pre">
+                                        {item.description}
+                                      </div>
+                                    </div>
+                                    <div>
+                                      <h6 className="font-semibold">Type</h6>
+                                      <div className="text-base font-medium whitespace-pre">
+                                        {item.type}
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
-                                <div>
-                                  <h6 className="font-semibold">Description</h6>
-                                  <div className="text-base font-medium whitespace-pre">
-                                    {item.description}
-                                  </div>
-                                </div>
-                                <div>
-                                  <h6 className="font-semibold">Type</h6>
-                                  <div className="text-base font-medium whitespace-pre">
-                                    {item.type}
-                                  </div>
-                                </div>
-                              </div>
 
-                              <div className="h-[2px] space-y-2 bg-secondary/15 my-3"></div>
-                            </div>
-                          );
-                        })}
+                                  <div className="h-[2px] space-y-2 bg-secondary/15 my-3"></div>
+                                </a>
+                              </div>
+                            );
+                          })}
                     </div>
                   </div>
                 </div>
@@ -318,37 +380,39 @@ function Booking({}) {
 
                   <div className="py-4 p-1 lg:p-1">
                     {data &&
-                      data.map((e, i) => (
-                        <React.Fragment key={i}>
-                          <div className="flex justify-between mt-6">
-                            <div>
-                              <h6 className="text-base font-medium ">
-                                {e.title}
-                              </h6>
+                      data
+                        .filter((e) => e.outCome == "Booked Appt")
+                        .map((e, i) => (
+                          <React.Fragment key={i}>
+                            <div className="flex justify-between mt-6">
+                              <div>
+                                <h6 className="text-base font-medium ">
+                                  {e.title}
+                                </h6>
+                              </div>
+                              <div className="">
+                                <button onClick={() => exportToCSV(e)}>
+                                  <svg
+                                    className="myhover"
+                                    width="20px"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M5.25589 16C3.8899 15.0291 3 13.4422 3 11.6493C3 9.20008 4.8 6.9375 7.5 6.5C8.34694 4.48637 10.3514 3 12.6893 3C15.684 3 18.1317 5.32251 18.3 8.25C19.8893 8.94488 21 10.6503 21 12.4969C21 14.0582 20.206 15.4339 19 16.2417M12 21V11M12 21L9 18M12 21L15 18"
+                                      stroke="#000000"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
                             </div>
-                            <div className="">
-                              <button onClick={() => exportToCSV(e)}>
-                                <svg
-                                  className="myhover"
-                                  width="20px"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M5.25589 16C3.8899 15.0291 3 13.4422 3 11.6493C3 9.20008 4.8 6.9375 7.5 6.5C8.34694 4.48637 10.3514 3 12.6893 3C15.684 3 18.1317 5.32251 18.3 8.25C19.8893 8.94488 21 10.6503 21 12.4969C21 14.0582 20.206 15.4339 19 16.2417M12 21V11M12 21L9 18M12 21L15 18"
-                                    stroke="#000000"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                </svg>
-                              </button>
-                            </div>
-                          </div>
-                          <div className="h-[2px] space-y-2 bg-secondary/15 my-3"></div>
-                        </React.Fragment>
-                      ))}
+                            <div className="h-[2px] space-y-2 bg-secondary/15 my-3"></div>
+                          </React.Fragment>
+                        ))}
                   </div>
                 </div>
               </div>

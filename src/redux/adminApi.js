@@ -1,13 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const customerApi = createApi({
-  reducerPath: "customerApi",
-  tagTypes: ["Customer"],
+export const adminApi = createApi({
+  reducerPath: "adminApi",
+  tagTypes: ["Admin"],
   baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_BASE_URL}/customer`,
+    baseUrl: `${import.meta.env.VITE_BASE_URL}/admin`,
   }),
   endpoints: (builder) => ({
-    getCustomers: builder.query({
+    getAdmins: builder.query({
       query: () => ({
         url: "/get",
         method: "POST",
@@ -15,39 +15,39 @@ export const customerApi = createApi({
           "x-access-token": localStorage.getItem("token"),
         },
       }),
-      providesTags: ["Customer"],
+      providesTags: ["Admin"],
     }),
-    createCustomer: builder.mutation({
-      query: (customer) => ({
+    createAdmin: builder.mutation({
+      query: (admin) => ({
         url: `/signup`,
         method: "POST",
-        body: customer,
+        body: admin,
         headers: {
           "Content-Type": "application/json",
         },
       }),
     }),
-    editCustomer: builder.mutation({
-      query: (customer) => ({
-        url: `/edit/${customer._id}`,
+    editAdmin: builder.mutation({
+      query: (admin) => ({
+        url: `/edit/${admin._id}`,
         method: "POST",
-        body: customer,
+        body: admin,
         headers: {
           "Content-Type": "application/json",
         },
       }),
     }),
-    loginCustomer: builder.mutation({
-      query: (customer) => ({
+    loginAdmin: builder.mutation({
+      query: (admin) => ({
         url: `/signin`,
         method: "POST",
-        body: customer,
+        body: admin,
         headers: {
           "Content-Type": "application/json",
         },
       }),
     }),
-    getCustomerDashboard: builder.query({
+    getAdminDashboard: builder.query({
       query: ({ id, filter, type }) => ({
         url: `/getDashboard/${type}/${id}`,
         method: "POST",
@@ -56,15 +56,15 @@ export const customerApi = createApi({
           "x-access-token": localStorage.getItem("token"),
         },
       }),
-      providesTags: ["Customer"],
+      providesTags: ["Admin"],
     }),
   }),
 });
 
 export const {
-  useGetCustomersQuery,
-  useCreateCustomerMutation,
-  useLoginCustomerMutation,
-  useGetCustomerDashboardQuery,
-  useEditCustomerMutation,
-} = customerApi;
+  useGetAdminsQuery,
+  useCreateAdminMutation,
+  useLoginAdminMutation,
+  useGetAdminDashboardQuery,
+  useEditAdminMutation,
+} = adminApi;

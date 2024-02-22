@@ -4,6 +4,7 @@ import { reportApi } from "./reportApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { customerApi } from "./customerApi";
 import { campaignApi } from "./campaignApi";
+import { adminApi } from "./adminApi";
 
 export const store = configureStore({
   reducer: {
@@ -11,13 +12,15 @@ export const store = configureStore({
     [reportApi.reducerPath]: reportApi.reducer,
     [customerApi.reducerPath]: customerApi.reducer,
     [campaignApi.reducerPath]: campaignApi.reducer,
+    [adminApi.reducerPath]: adminApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       recordApi.middleware,
       reportApi.middleware,
       customerApi.middleware,
-      campaignApi.middleware
+      campaignApi.middleware,
+      adminApi.middleware
     ),
 });
 
