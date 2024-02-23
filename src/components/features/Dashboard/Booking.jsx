@@ -97,9 +97,7 @@ function Booking() {
     writeFile(workbook, "Report.xlsx");
   };
 
-  const switchToActivation = () => {
-    navigate(`/activations/${customer._id}`, { state: { customer: customer } });
-  };
+
   return (
     <>
       <main className="relative z-20 flex h-full flex-1 flex-col overflow-y-auto overflow-x-hidden rounded-3xl rounded-t-2xl bg-slate-50 p-5 lg:rounded-s-[3rem] lg:rounded-tr-none lg:p-12 2xl:p-16 min-h-screen">
@@ -107,9 +105,6 @@ function Booking() {
           currentActiveFilter={currentActiveFilter}
           setCurrentActiveFilter={onTabChange}
         />
-        <button className="font-semibold" onClick={switchToActivation}>
-          Switch to Activation Dashboard
-        </button>
 
         <div className="mt-8 flex-1">
           <div>
