@@ -4,11 +4,10 @@ import { utils, writeFile } from "xlsx";
 import { useGetAdminDashboardQuery } from "../../../redux/adminApi";
 import { useGetAllCampaignQuery } from "../../../redux/campaignApi";
 import Loading from "../../utils/Loading";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../layout/Navbar";
 function Booking() {
   const params = useParams();
-  const location = useLocation();
   const customer = JSON.parse(localStorage.getItem('customer'));
   const [data, setData] = useState([]);
   const [noOfBookings, setNoOfBookings] = useState();
@@ -96,8 +95,6 @@ function Booking() {
     utils.book_append_sheet(workbook, worksheet, "Sheet1");
     writeFile(workbook, "Report.xlsx");
   };
-
-
   return (
     <>
       <main className="relative z-20 flex h-full flex-1 flex-col overflow-y-auto overflow-x-hidden rounded-3xl rounded-t-2xl bg-slate-50 p-5 lg:rounded-s-[3rem] lg:rounded-tr-none lg:p-12 2xl:p-16 min-h-screen">
@@ -133,11 +130,12 @@ function Booking() {
                           fill="currentColor"
                           viewBox="0 0 21 21"
                           className="h-4 w-4"
+                          style={{rotate: noOfBookings < prevnoOfBookings ? "180deg" : "0"}}
                         >
                           <path d="M10.072 0a10.072 10.072 0 1 0 10.072 10.072A10.082 10.082 0 0 0 10.072 0Zm0 18.594a8.522 8.522 0 1 1 8.522-8.522 8.532 8.532 0 0 1-8.522 8.522Zm3.647-9.845a.774.774 0 1 1-1.096 1.096l-1.776-1.777v5.877a.775.775 0 1 1-1.55 0V8.069L7.521 9.845A.775.775 0 1 1 6.425 8.75l3.099-3.1a.775.775 0 0 1 1.096 0l3.099 3.1Z" />
                         </svg>
                       </span>
-                      <span className=""> {noOfBookings < prevnoOfBookings ? "-" : "+"}{prevnoOfBookings ? (noOfBookings - prevnoOfBookings) / prevnoOfBookings * 100 : 100}% </span>
+                      <span className=""> {noOfBookings < prevnoOfBookings ? "-" : "+"}{prevnoOfBookings ? Number.parseFloat((noOfBookings - prevnoOfBookings) / prevnoOfBookings * 100).toFixed(2) : 100}% </span>
                     </div>
                   </div>
 
@@ -203,6 +201,7 @@ function Booking() {
                             fill="currentColor"
                             viewBox="0 0 21 21"
                             className="h-4 w-4"
+                            style={{rotate: noOfConversations < noOfPrevConversations ? "180deg" : "0"}}
                           >
                             <path d="M10.072 0a10.072 10.072 0 1 0 10.072 10.072A10.082 10.082 0 0 0 10.072 0Zm0 18.594a8.522 8.522 0 1 1 8.522-8.522 8.532 8.532 0 0 1-8.522 8.522Zm3.647-9.845a.774.774 0 1 1-1.096 1.096l-1.776-1.777v5.877a.775.775 0 1 1-1.55 0V8.069L7.521 9.845A.775.775 0 1 1 6.425 8.75l3.099-3.1a.775.775 0 0 1 1.096 0l3.099 3.1Z"></path>
                           </svg>
@@ -243,11 +242,12 @@ function Booking() {
                             fill="currentColor"
                             viewBox="0 0 21 21"
                             className="h-4 w-4"
+                            style={{rotate: conversationRate < prevconversationRate ? "180deg" : "0"}}
                           >
                             <path d="M10.072 0a10.072 10.072 0 1 0 10.072 10.072A10.082 10.082 0 0 0 10.072 0Zm0 18.594a8.522 8.522 0 1 1 8.522-8.522 8.532 8.532 0 0 1-8.522 8.522Zm3.647-9.845a.774.774 0 1 1-1.096 1.096l-1.776-1.777v5.877a.775.775 0 1 1-1.55 0V8.069L7.521 9.845A.775.775 0 1 1 6.425 8.75l3.099-3.1a.775.775 0 0 1 1.096 0l3.099 3.1Z"></path>
                           </svg>
                         </span>
-                        <span className=""> {conversationRate < prevconversationRate ? "-" : "+"} {prevconversationRate ? (conversationRate - prevconversationRate) / prevconversationRate * 100 : "100" }% </span>
+                        <span className=""> {conversationRate < prevconversationRate ? "-" : "+"} {prevconversationRate ? Number.parseFloat((conversationRate - prevconversationRate) / prevconversationRate * 100).toFixed(2) : "100" }% </span>
                       </div>
                     </div>
                   </div>

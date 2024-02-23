@@ -108,7 +108,6 @@ function Activation() {
     writeFile(workbook, "Report.xlsx");
   };
   
-  
   return (
     <>
       <main className="relative z-20 flex h-full flex-1 flex-col overflow-y-auto overflow-x-hidden rounded-3xl rounded-t-2xl bg-slate-50 p-5 lg:rounded-s-[3rem] lg:rounded-tr-none lg:p-12 2xl:p-16 min-h-screen">
@@ -116,7 +115,7 @@ function Activation() {
           currentActiveFilter={currentActiveFilter}
           setCurrentActiveFilter={onTabChange}
         />
-
+        
         <div className="mt-8 flex-1">
           <div>
             <div className="">
@@ -144,6 +143,7 @@ function Activation() {
                           fill="currentColor"
                           viewBox="0 0 21 21"
                           className="h-4 w-4"
+                          style={{rotate: noOfActivations < prevnoOfActivations ? "180deg" : "0"}}
                         >
                           <path d="M10.072 0a10.072 10.072 0 1 0 10.072 10.072A10.082 10.082 0 0 0 10.072 0Zm0 18.594a8.522 8.522 0 1 1 8.522-8.522 8.532 8.532 0 0 1-8.522 8.522Zm3.647-9.845a.774.774 0 1 1-1.096 1.096l-1.776-1.777v5.877a.775.775 0 1 1-1.55 0V8.069L7.521 9.845A.775.775 0 1 1 6.425 8.75l3.099-3.1a.775.775 0 0 1 1.096 0l3.099 3.1Z" />
                         </svg>
@@ -213,6 +213,7 @@ function Activation() {
                       <div className="flex items-center gap-px text-sm font-medium text-primary">
                         <span className="">
                           <svg
+                            style={{rotate: noOfConversations < noOfPrevConversations ? "180deg" : "0"}}
                             xmlns="http://www.w3.org/2000/svg"
                             fill="currentColor"
                             viewBox="0 0 21 21"
@@ -221,7 +222,7 @@ function Activation() {
                             <path d="M10.072 0a10.072 10.072 0 1 0 10.072 10.072A10.082 10.082 0 0 0 10.072 0Zm0 18.594a8.522 8.522 0 1 1 8.522-8.522 8.532 8.532 0 0 1-8.522 8.522Zm3.647-9.845a.774.774 0 1 1-1.096 1.096l-1.776-1.777v5.877a.775.775 0 1 1-1.55 0V8.069L7.521 9.845A.775.775 0 1 1 6.425 8.75l3.099-3.1a.775.775 0 0 1 1.096 0l3.099 3.1Z"></path>
                           </svg>
                         </span>
-                        <span className="">{noOfConversations < noOfPrevConversations ? "-" : "+"} { noOfPrevConversations ? (( noOfConversations - noOfPrevConversations) / noOfPrevConversations * 100) : "100"}% </span>
+                        <span className="">{noOfConversations < noOfPrevConversations ? "" : "+"} { noOfPrevConversations ? Number.parseFloat(( noOfConversations - noOfPrevConversations) / noOfPrevConversations * 100).toFixed(2) : "100"}% </span>
                       </div>
                     </div>
                   </div>
@@ -253,6 +254,7 @@ function Activation() {
                       <div className="flex items-center gap-px text-sm font-medium text-primary">
                         <span className="">
                           <svg
+                            style={{rotate: conversationRate < prevconversationRate ? "180deg" : "0"}}
                             xmlns="http://www.w3.org/2000/svg"
                             fill="currentColor"
                             viewBox="0 0 21 21"
@@ -261,7 +263,7 @@ function Activation() {
                             <path d="M10.072 0a10.072 10.072 0 1 0 10.072 10.072A10.082 10.082 0 0 0 10.072 0Zm0 18.594a8.522 8.522 0 1 1 8.522-8.522 8.532 8.532 0 0 1-8.522 8.522Zm3.647-9.845a.774.774 0 1 1-1.096 1.096l-1.776-1.777v5.877a.775.775 0 1 1-1.55 0V8.069L7.521 9.845A.775.775 0 1 1 6.425 8.75l3.099-3.1a.775.775 0 0 1 1.096 0l3.099 3.1Z"></path>
                           </svg>
                         </span>
-                        <span className=""> {conversationRate < prevconversationRate ? "-" : "+"}  {prevconversationRate ? Number.parseFloat((conversationRate - prevconversationRate) / prevconversationRate * 100).toFixed(2) : "100"} % </span>
+                        <span className=""> {conversationRate < prevconversationRate ? "-" : "+"} {" "} {prevconversationRate ? Number.parseFloat((conversationRate - prevconversationRate) / prevconversationRate * 100).toFixed(2) : "100"} % </span>
                       </div>
                     </div>
                   </div>
